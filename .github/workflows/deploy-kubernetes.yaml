@@ -20,19 +20,19 @@ jobs:
           push: true
           tags: |
             mbouzayeni/train-schedule:${{ github.sha }}
-          cache-from: type=registry,ref=user/app:buildcache
-          cache-to: type=registry,ref=user/app:buildcache,mode=max              
+          # cache-from: type=registry,ref=user/app:buildcache
+          # cache-to: type=registry,ref=user/app:buildcache,mode=max              
   DeployToKubernetes:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
-    needs: PushDockerImage
+    needs: BuildAndPushDockerImage
     steps:
       - name: Set the Kubernetes context
         uses: azure/k8s-set-context@v2
         with:
           method: service-account
-          k8s-url: https://34.22.216.109:6443 ## TODO
-          k8s-secret: ${{ SERVICE_ACCOUNT_TOKEN }} ## TODO
+          k8s-url: https://34.22.216.109:6443
+          token: '${{ secrets.SERVICE_ACCOUNT_TOKEN }}'
 
       - name: Checkout source code
         uses: actions/checkout@v3
@@ -40,9 +40,9 @@ jobs:
       - name: Replace the variables in the kubernetes config file
         uses: cschleiden/replace-tokens@v1
         with:
-          files: [train-schedule-kube.yaml]
-          tokenPrefix: __
-          tokenSuffix: __
+          files: '[train-schedule-kube.yaml]'
+          tokenPrefix: '__'
+          tokenSuffix: '__'
         env:
           DOCKER_IMAGE_NAME: mbouzayeni/train-schedule
           BUILD_NUMBER: ${{ github.sha }}
