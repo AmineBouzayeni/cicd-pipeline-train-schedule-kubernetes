@@ -1,8 +1,6 @@
 name: Containerized Train CI/CD
 run-name: Train CI/CD
 on: [push]
-env:
-  $SERVICE_ACCOUNT_SECRET: ""
 jobs:
   BuildAndPushDockerImage:
     runs-on: ubuntu-latest
