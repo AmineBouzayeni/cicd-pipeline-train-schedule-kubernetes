@@ -31,6 +31,8 @@ spec:
     spec:
       containers:
       - name: train-schedule
-        image: $DOCKER_IMAGE_NAME:$BUILD_NUMBER
+        image: __DOCKER_IMAGE_NAME__:__BUILD_NUMBER__
         ports:
         - containerPort: 8080
+      imagePullSecrets:
+        - name: github-container-registry
