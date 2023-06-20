@@ -31,7 +31,7 @@ jobs:
         uses: azure/k8s-set-context@v2
         with:
           method: service-account
-          k8s-url: https://34.22.216.109:6443
+          k8s-url: https://34.79.202.238:6443
           k8s-secret: '${{ secrets.SERVICE_ACCOUNT_TOKEN }}'
 
       - name: Checkout source code
